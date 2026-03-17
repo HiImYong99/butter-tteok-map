@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <title>버터맵</title>
+    <script>
+      // 네이버 지도 SDK와 Geocoder 모듈 로드
+      (function () {
+        var clientId = '%VITE_NAVER_MAP_CLIENT_ID%';
+        if (clientId && clientId !== '__VITE_NAVER_MAP_CLIENT_ID__' && clientId !== '') {
+          var s = document.createElement('script');
+          s.src = 'https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=' + clientId + '&submodules=geocoder';
+          document.head.appendChild(s);
+        } else {
+          // 키 없음 → 더미 naver 객체로 오류 방지
+          window.__naverMapMissing = true;
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

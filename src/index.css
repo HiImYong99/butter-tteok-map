@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 웹뷰 최적화: 바운스/오버스크롤 방지 */
+html,
+body {
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* 텍스트 선택/콜아웃 비활성화 */
+body {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+/* 포커스 가능한 요소에는 선택 허용 */
+input,
+textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* 네이버 지도 컨테이너 터치 액션 */
+.naver-map-container {
+  touch-action: pan-x pan-y;
+}

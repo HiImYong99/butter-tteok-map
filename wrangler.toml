@@ -1,0 +1,23 @@
+name = "butter-map-worker"
+main = "worker/proxy.js"
+compatibility_date = "2024-01-01"
+
+# Cloudflare Pages 연동 시 assets 경로
+# [site]
+# bucket = "./dist"
+
+[vars]
+# 로컬 개발용 플레이스홀더 (실제 키는 wrangler secret 또는 Pages 환경 변수로 관리)
+ENVIRONMENT = "development"
+
+# 실제 배포 시 아래 명령어로 시크릿 등록:
+# npx wrangler secret put NAVER_CLIENT_ID
+# npx wrangler secret put NAVER_CLIENT_SECRET
+
+[[routes]]
+pattern = "/api/*"
+zone_name = "your-domain.com"
+
+[dev]
+port = 8787
+local_protocol = "http"
