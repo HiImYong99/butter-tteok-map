@@ -57,20 +57,12 @@ export default function LocationButton() {
       requestLocation()
       return
     }
-
     showFullScreenAd({
       options: { adGroupId: REWARDED_AD_GROUP_ID },
       onEvent: (event) => {
-        if (event.type === 'userEarnedReward') {
-          requestLocation()
-        }
-        if (event.type === 'dismissed') {
-          setAdLoaded(false)
-          loadAd()
-        }
-        if (event.type === 'failedToShow') {
-          requestLocation()
-        }
+        if (event.type === 'userEarnedReward') requestLocation()
+        if (event.type === 'dismissed') { setAdLoaded(false); loadAd() }
+        if (event.type === 'failedToShow') requestLocation()
       },
       onError: () => requestLocation(),
     })
@@ -81,52 +73,45 @@ export default function LocationButton() {
   return (
     <button
       onClick={handleClick}
-      className="w-full flex items-center gap-4 px-5 active:opacity-60 transition-opacity"
-      style={{ height: '64px' }}
       aria-label="내 주변 버터떡 검색"
+      className="active:scale-95 transition-transform duration-150 select-none"
+      style={{ WebkitTapHighlightColor: 'transparent' }}
     >
-      {/* 아이콘 */}
       <div
-        className="flex-none w-11 h-11 rounded-full flex items-center justify-center"
-        style={{ background: 'linear-gradient(135deg, #3182F6 0%, #1B6EEB 100%)', boxShadow: '0 2px 8px rgba(49,130,246,0.35)' }}
+        className="flex items-center gap-2.5 px-6 rounded-full"
+        style={{
+          height: '52px',
+          background: 'linear-gradient(135deg, #3182F6 0%, #1756C8 100%)',
+          boxShadow: '0 4px 20px rgba(49, 130, 246, 0.50), 0 1px 4px rgba(0,0,0,0.12)',
+        }}
       >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-          <polygon points="3 11 22 2 13 21 11 13 3 11" fill="white" />
-        </svg>
-      </div>
+        {/* 위치 아이콘 */}
+        {adLoading ? (
+          <svg className="animate-spin flex-none" width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.3)" strokeWidth="2.5"/>
+            <path d="M12 2a10 10 0 0 1 10 10" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
+          </svg>
+        ) : (
+          <svg className="flex-none" width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <polygon points="3 11 22 2 13 21 11 13 3 11" fill="white"/>
+          </svg>
+        )}
 
-      {/* 텍스트 */}
-      <div className="flex flex-col items-start flex-1 min-w-0">
-        <span className="text-[15px] font-bold text-toss-text leading-snug">내 주변 검색</span>
-        <span className="text-xs text-toss-text-sub leading-snug">
-          {adLoading
-            ? '광고 준비 중...'
-            : isAdMode
-              ? adLoaded ? '광고를 보고 이용해요' : '바로 이용해요'
-              : '내 위치로 이동해요'}
+        {/* 텍스트 */}
+        <span className="text-[15px] font-bold text-white tracking-tight whitespace-nowrap">
+          내 주변 검색
         </span>
-      </div>
 
-      {/* 광고 배지 */}
-      {isAdMode && (
-        <div className="flex-none flex items-center gap-1">
-          {adLoaded ? (
-            <span
-              className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
-              style={{ background: '#FFF3E0', color: '#E65100' }}
-            >
-              광고
+        {/* 광고 구분선 + 배지 */}
+        {isAdMode && adLoaded && (
+          <>
+            <div className="w-px h-4 bg-white/30 mx-0.5" />
+            <span className="text-[11px] font-semibold text-white/80 whitespace-nowrap">
+              광고 보고 이용
             </span>
-          ) : (
-            <span
-              className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
-              style={{ background: '#EFF6FF', color: '#3182F6' }}
-            >
-              무료
-            </span>
-          )}
-        </div>
-      )}
+          </>
+        )}
+      </div>
     </button>
   )
 }
