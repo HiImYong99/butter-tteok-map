@@ -6,10 +6,9 @@ const WORKER_URL = import.meta.env.VITE_WORKER_URL || 'http://localhost:8787'
 
 export default function MapContainer() {
   const mapRef = useRef<HTMLDivElement>(null)
-  const { center, setMapInstance, searchNearby } = useMapStore()
+  const { center, setMapInstance, searchNearby, setSelectedResult } = useMapStore()
   const mapInstanceRef = useRef<naver.maps.Map | null>(null)
   const searchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const addressInfoWindowRef = useRef<naver.maps.InfoWindow | null>(null)
 
   useEffect(() => {
     if (!mapRef.current || mapInstanceRef.current) return
@@ -38,36 +37,12 @@ export default function MapContainer() {
       }, 500)
     }
 
-    map.addListener('dragend', triggerSearch)
+    map.addListener('dragend', () => {
+      setSelectedResult(null)
+      triggerSearch()
+    })
     map.addListener('zoom_changed', triggerSearch)
 
-    // 지도 클릭: 역지오코딩으로 주소만 표시
-    map.addListener('click', async (e?: naver.maps.MapClickEvent) => {
-      if (!e?.coord || !mapInstanceRef.current) return
-      const lat = e.coord.lat()
-      const lng = e.coord.lng()
-
-      // 이전 주소 팝업 닫기
-      addressInfoWindowRef.current?.close()
-
-      try {
-        const res = await fetch(`${WORKER_URL}/api/reverse-geocode?lat=${lat}&lng=${lng}`)
-        const data = await res.json()
-        if (!data.address) return
-
-        const iw = new naver.maps.InfoWindow({
-          content: `<div style="padding:8px 14px;font-size:13px;font-weight:600;color:#191F28;white-space:nowrap">${data.address}</div>`,
-          borderWidth: 0,
-          backgroundColor: 'white',
-          disableAnchor: false,
-        })
-        iw.open(mapInstanceRef.current, new naver.maps.LatLng(lat, lng))
-        addressInfoWindowRef.current = iw
-
-        // 4초 후 자동 닫기
-        setTimeout(() => iw.close(), 4000)
-      } catch { /* ignore */ }
-    })
 
     return () => {
       if (searchTimerRef.current) clearTimeout(searchTimerRef.current)

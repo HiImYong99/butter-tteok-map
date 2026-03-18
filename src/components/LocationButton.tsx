@@ -78,14 +78,14 @@ export default function LocationButton() {
       style={{ WebkitTapHighlightColor: 'transparent' }}
     >
       <div
-        className="flex items-center gap-2.5 px-6 rounded-full"
+        className="flex items-center gap-3 px-6 rounded-full"
         style={{
           height: '52px',
           background: 'linear-gradient(135deg, #3182F6 0%, #1756C8 100%)',
           boxShadow: '0 4px 20px rgba(49, 130, 246, 0.50), 0 1px 4px rgba(0,0,0,0.12)',
         }}
       >
-        {/* 위치 아이콘 */}
+        {/* 아이콘 */}
         {adLoading ? (
           <svg className="animate-spin flex-none" width="18" height="18" viewBox="0 0 24 24" fill="none">
             <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.3)" strokeWidth="2.5"/>
@@ -99,18 +99,12 @@ export default function LocationButton() {
 
         {/* 텍스트 */}
         <span className="text-[15px] font-bold text-white tracking-tight whitespace-nowrap">
-          내 주변 검색
+          {adLoading
+            ? '광고 준비 중…'
+            : isAdMode
+              ? '광고 보고 내 주변 검색'
+              : '내 주변 검색'}
         </span>
-
-        {/* 광고 구분선 + 배지 */}
-        {isAdMode && adLoaded && (
-          <>
-            <div className="w-px h-4 bg-white/30 mx-0.5" />
-            <span className="text-[11px] font-semibold text-white/80 whitespace-nowrap">
-              광고 보고 이용
-            </span>
-          </>
-        )}
       </div>
     </button>
   )

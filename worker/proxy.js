@@ -3,6 +3,7 @@
  */
 const ALLOWED_ORIGINS = [
   'http://localhost:5173',
+  'http://localhost:5175',
   'http://localhost:8787',
   /^https:\/\/[\w-]+\.apps\.tossmini\.com$/,
   /^https:\/\/[\w-]+\.private-apps\.tossmini\.com$/,

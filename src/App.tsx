@@ -33,7 +33,7 @@ export default function App() {
       {/* 검색바 (지도 위 float) */}
       <div
         className="absolute top-0 left-0 right-0 z-10"
-        style={{ paddingTop: 'env(safe-area-inset-top)' }}
+        style={{ paddingTop: 'calc(env(safe-area-inset-top) + 16px)' }}
       >
         <SearchBar />
       </div>

@@ -115,7 +115,8 @@ export default function SearchBar() {
           onChange={(e) => { setQuery(e.target.value); setGeoError(null) }}
           onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
           placeholder="지역명 검색 (예: 강남, 홍대)"
-          className="flex-1 text-sm text-toss-text placeholder:text-toss-text-sub outline-none bg-transparent min-w-0"
+          className="flex-1 text-toss-text placeholder:text-toss-text-sub outline-none bg-transparent min-w-0"
+          style={{ fontSize: '16px' }}
         />
 
         {/* 로딩 스피너 or 검색 버튼 */}

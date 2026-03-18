@@ -14,11 +14,17 @@ body {
   padding: 0;
 }
 
-/* 텍스트 선택/콜아웃 비활성화 */
+/* 텍스트 선택/콜아웃 비활성화 + 줌 방지 */
 body {
   -webkit-user-select: none;
   -webkit-touch-callout: none;
   user-select: none;
+  touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
+}
+
+button, a {
+  touch-action: manipulation;
 }
 
 /* 포커스 가능한 요소에는 선택 허용 */

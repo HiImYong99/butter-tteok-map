@@ -14,9 +14,6 @@ ENVIRONMENT = "development"
 # npx wrangler secret put NAVER_CLIENT_ID
 # npx wrangler secret put NAVER_CLIENT_SECRET
 
-[[routes]]
-pattern = "/api/*"
-zone_name = "your-domain.com"
 
 [dev]
 port = 8787
