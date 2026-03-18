@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "ait dev",
+    "dev:local": "concurrently -n \"vite,worker\" -c \"cyan,yellow\" \"vite\" \"npx wrangler dev worker/proxy.js --local\"",
     "build": "ait build",
     "build:web": "tsc && vite build",
     "preview": "vite preview",
@@ -24,6 +25,7 @@
     "@types/ws": "^8.18.1",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
+    "concurrently": "^9.2.1",
     "postcss": "^8.5.1",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.3",
