@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { TossAds } from '@apps-in-toss/web-framework'
 import { isAitSupported } from '../utils/aitSupport'
 
-const BANNER_AD_GROUP_ID = 'toss_banner'
+const BANNER_AD_GROUP_ID = 'ait.v2.live.b2d19e4e7b5b4efb'
 
 export default function AdBanner({ isInitialized }: { isInitialized: boolean }) {
   const containerRef = useRef<HTMLDivElement>(null)

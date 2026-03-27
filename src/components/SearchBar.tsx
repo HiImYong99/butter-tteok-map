@@ -4,7 +4,7 @@ import { useMapStore } from '../store/useMapStore'
 import { isAitSupported } from '../utils/aitSupport'
 
 const WORKER_URL = import.meta.env.VITE_WORKER_URL || 'http://localhost:8787'
-const FULL_AD_GROUP_ID = 'toss_full'
+const FULL_AD_GROUP_ID = 'ait.v2.live.a4de01bc32ab4303'
 
 export default function SearchBar() {
   const [query, setQuery] = useState('')

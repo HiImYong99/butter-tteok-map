@@ -41,14 +41,14 @@ export default function App() {
       {/* 매장 상세 바텀시트 */}
       <StoreBottomSheet />
 
-      {/* 하단 영역: 배너 + 내 주변 버튼 플로팅 */}
-      <div
-        className="absolute bottom-0 left-0 right-0 z-10 flex flex-col items-center"
-        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
-      >
-        <AdBanner isInitialized={adsInitialized} />
+      {/* 내 주변 버튼 플로팅 */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 flex flex-col items-center">
         <div className="py-4">
           <LocationButton />
+        </div>
+        {/* 배너 광고 최하단 */}
+        <div style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
+          <AdBanner isInitialized={adsInitialized} />
         </div>
       </div>
 

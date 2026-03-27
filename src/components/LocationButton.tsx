@@ -3,7 +3,7 @@ import { loadFullScreenAd, showFullScreenAd } from '@apps-in-toss/web-framework'
 import { useMapStore } from '../store/useMapStore'
 import { isAitSupported } from '../utils/aitSupport'
 
-const REWARDED_AD_GROUP_ID = 'toss_reward'
+const FULL_AD_GROUP_ID = 'ait.v2.live.a4de01bc32ab4303'
 
 export default function LocationButton() {
   const { setCenter, searchNearby, mapInstance } = useMapStore()
@@ -16,7 +16,7 @@ export default function LocationButton() {
     setAdLoading(true)
     setAdLoaded(false)
     const unregister = loadFullScreenAd({
-      options: { adGroupId: REWARDED_AD_GROUP_ID },
+      options: { adGroupId: FULL_AD_GROUP_ID },
       onEvent: (event) => {
         if (event.type === 'loaded') {
           setAdLoaded(true)
@@ -53,22 +53,22 @@ export default function LocationButton() {
   }
 
   function handleClick() {
-    if (!isAitSupported(loadFullScreenAd) || !adLoaded) {
+    if (isAitSupported(loadFullScreenAd) && adLoaded) {
+      showFullScreenAd({
+        options: { adGroupId: FULL_AD_GROUP_ID },
+        onEvent: (event) => {
+          if (event.type === 'dismissed' || event.type === 'failedToShow') {
+            requestLocation()
+            setAdLoaded(false)
+            loadAd()
+          }
+        },
+        onError: () => requestLocation(),
+      })
+    } else {
       requestLocation()
-      return
     }
-    showFullScreenAd({
-      options: { adGroupId: REWARDED_AD_GROUP_ID },
-      onEvent: (event) => {
-        if (event.type === 'userEarnedReward') requestLocation()
-        if (event.type === 'dismissed') { setAdLoaded(false); loadAd() }
-        if (event.type === 'failedToShow') requestLocation()
-      },
-      onError: () => requestLocation(),
-    })
   }
-
-  const isAdMode = isAitSupported(loadFullScreenAd)
 
   return (
     <button
@@ -85,25 +85,11 @@ export default function LocationButton() {
           boxShadow: '0 4px 20px rgba(49, 130, 246, 0.50), 0 1px 4px rgba(0,0,0,0.12)',
         }}
       >
-        {/* 아이콘 */}
-        {adLoading ? (
-          <svg className="animate-spin flex-none" width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.3)" strokeWidth="2.5"/>
-            <path d="M12 2a10 10 0 0 1 10 10" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
-          </svg>
-        ) : (
-          <svg className="flex-none" width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <polygon points="3 11 22 2 13 21 11 13 3 11" fill="white"/>
-          </svg>
-        )}
-
-        {/* 텍스트 */}
+        <svg className="flex-none" width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <polygon points="3 11 22 2 13 21 11 13 3 11" fill="white"/>
+        </svg>
         <span className="text-[15px] font-bold text-white tracking-tight whitespace-nowrap">
-          {adLoading
-            ? '광고 준비 중…'
-            : isAdMode
-              ? '광고 보고 내 주변 검색'
-              : '내 주변 검색'}
+          광고 보고 내 주변 검색
         </span>
       </div>
     </button>
